@@ -95,8 +95,56 @@
             transition: width 0.3s ease;
         }
 
+
+
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #fff5f0;
+            color: #ff6b35;
+            padding-left: 25px;
+        }
+
+        .dropdown-item::after {
+            display: none; /* Remove underline from dropdown items */
         }
 
         .nav-right {
@@ -362,6 +410,113 @@
                 font-size: 12px;
             }
         }
+
+
+        /* Kuliner Section */
+        .kuliner-section {
+            padding: 80px 0;
+            background-color: #f9f9f9;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .kuliner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .kuliner-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .kuliner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.15);
+        }
+
+        .card-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #fff5f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            color: #ff6b35;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .card-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .card-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -375,15 +530,22 @@
         </a>
 
         <ul class="nav-links">
-            <li><a href="#beranda">Beranda</a></li>
-            <li><a href="#destinasi">Destinasi</a></li>
-            <li><a href="#kategori">Kategori</a></li>
+            <li><a href="{{ route('landing') }}">Beranda</a></li>
+            <li class="dropdown">
+                <a href="#destinasi">Daerah <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i></a>
+                <div class="dropdown-menu">
+
+                    @foreach($daerahs as $daerah)
+                        <a href="{{ route('landing', ['daerah' => $daerah->id]) }}" class="dropdown-item">{{ $daerah->nama_daerah }}</a>
+                    @endforeach
+                </div>
+            </li>
             <li><a href="#tentang">Tentang</a></li>
         </ul>
 
         <div class="nav-right">
             <i class="fas fa-search search-icon"></i>
-            <a href="#" class="btn-jelajah">
+            <a href="#destinasi" class="btn-jelajah">
                 <i class="fas fa-compass"></i>
                 Jelajah
             </a>
@@ -426,6 +588,50 @@
                 <a href="#" class="tag">Sate Ayam</a>
                 <a href="#" class="tag">Nasi Goreng</a>
                 <a href="#" class="tag">Gado-Gado</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kuliner Section -->
+    <section class="kuliner-section" id="destinasi">
+        <div class="section-container">
+            <div class="section-title">
+                <h2>
+                    @if(request('daerah') && $selectedDaerah = $daerahs->find(request('daerah')))
+                        Kuliner di {{ $selectedDaerah->nama_daerah }}
+                    @else
+                        Rekomendasi Kuliner Terbaik
+                    @endif
+                </h2>
+                <p>
+                    @if(request('daerah'))
+                        Menampilkan hasil pencarian berdasarkan daerah pilihan Anda
+                    @else
+                        Nikmati hidangan dengan rating tertinggi pilihan kami
+                    @endif
+                </p>
+            </div>
+
+            <div class="kuliner-grid">
+                @foreach($kuliners as $kuliner)
+                <div class="kuliner-card">
+                    <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-image">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ $kuliner->nama_kuliner }}</h3>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i> {{ $kuliner->rating }}
+                            </div>
+                        </div>
+                        <div class="card-location">
+                            <i class="fas fa-map-marker-alt"></i> {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
+                        </div>
+                        <p class="card-desc">
+                            {{ $kuliner->deskripsi }}
+                        </p>
+                    </div>
+                </div>
+                @endforeach
             </div>
         </div>
     </section>

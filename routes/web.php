@@ -3,9 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('landing_page');
-});
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    $query = App\Models\Kuliner::with('daerah')->orderBy('rating', 'desc');
+    
+    if ($request->has('daerah')) {
+        $query->where('daerah_id', $request->daerah);
+    }
+    
+    $kuliners = $query->get();
+    $daerahs = App\Models\Daerah::all();
+    
+    return view('landing_page', compact('kuliners', 'daerahs'));
+})->name('landing');
 
 Route::get('/welcome', function () {
     return view('welcome');

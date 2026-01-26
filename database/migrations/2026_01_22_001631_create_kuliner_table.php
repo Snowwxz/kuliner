@@ -11,24 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kuliner', function (Blueprint $table) {
-    $table->id();
-    $table->string('nama_kuliner', 150);
-    $table->foreignId('kategori_id')
-          ->constrained('kategori')
-          ->onDelete('cascade');
+        if (!Schema::hasTable('kuliner')) {
+            Schema::create('kuliner', function (Blueprint $table) {
+                $table->id();
+                $table->string('nama_kuliner', 150);
+                $table->foreignId('kategori_id')
+                      ->constrained('kategori')
+                      ->onDelete('cascade');
 
-    $table->foreignId('daerah_id')
-          ->constrained('daerah')
-          ->onDelete('cascade');
+                $table->foreignId('daerah_id')
+                      ->constrained('daerah')
+                      ->onDelete('cascade');
 
-    $table->text('deskripsi');
-    $table->text('bahan_utama');
-    $table->text('cara_penyajian');
-    $table->string('gambar')->nullable();
-    $table->timestamps();
-});
-
+                $table->text('deskripsi');
+                $table->text('bahan_utama');
+                $table->text('cara_penyajian');
+                $table->string('gambar')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

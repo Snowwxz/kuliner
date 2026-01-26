@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Kuliner extends Model
+{
+    use HasFactory;
+
+    protected $table = 'kuliner';
+
+    protected $fillable = [
+        'nama_kuliner',
+        'kategori_id',
+        'daerah_id',
+        'deskripsi',
+        'bahan_utama',
+        'cara_penyajian',
+        'gambar',
+        'rating',
+    ];
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
+
+    public function daerah()
+    {
+        return $this->belongsTo(Daerah::class, 'daerah_id');
+    }
+}

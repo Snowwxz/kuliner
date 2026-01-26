@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::create('daerah', function (Blueprint $table) {
-    $table->id();
-    $table->string('nama_daerah', 100);
-    $table->text('keterangan')->nullable();
-    $table->timestamps();
-});
-
+        Schema::table('kuliner', function (Blueprint $table) {
+            $table->integer('rating')->default(0);
+        });
     }
 
     /**
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('daerah');
+        Schema::table('kuliner', function (Blueprint $table) {
+            $table->dropColumn('rating');
+        });
     }
 };

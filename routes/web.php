@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
     return view('landing_page');
@@ -10,20 +11,20 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// Auth Routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::post('/login', function () {
-    // Handle login logic here
-    return redirect('/');
-})->name('login.post');
-
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
-Route::post('/register', function () {
-    // Handle registration logic here
-    return redirect()->route('login');
-})->name('register.post');
+// Protected Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/admin', [App\Http\Controllers\KulinerController::class, 'index'])->name('admin');
+    Route::post('/kuliner', [App\Http\Controllers\KulinerController::class, 'store'])->name('kuliner.store');
+    Route::delete('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'destroy'])->name('kuliner.destroy');
+    
+    Route::get('/daerah', [App\Http\Controllers\DaerahController::class, 'index'])->name('daerah');
+    Route::post('/daerah', [App\Http\Controllers\DaerahController::class, 'store'])->name('daerah.store');
+    Route::delete('/daerah/{id}', [App\Http\Controllers\DaerahController::class, 'destroy'])->name('daerah.destroy');
+});

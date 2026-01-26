@@ -12,22 +12,21 @@ class KulinerController extends Controller
 {
     public function index()
     {
-        $kuliners = Kuliner::with(['kategori', 'daerah'])->get();
-        $kategoris = Kategori::all();
+        $kuliners = Kuliner::with(['daerah'])->get();
         $daerahs = Daerah::all();
         
-        return view('admin', compact('kuliners', 'kategoris', 'daerahs'));
+        return view('admin', compact('kuliners', 'daerahs'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'nama_kuliner' => 'required|string|max:150',
-            'kategori_id' => 'required|exists:kategori,id',
             'daerah_id' => 'required|exists:daerah,id',
             'deskripsi' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gmaps_link' => 'nullable|url',
         ]);
 
         $imagePath = null;
@@ -37,13 +36,13 @@ class KulinerController extends Controller
 
         Kuliner::create([
             'nama_kuliner' => $request->nama_kuliner,
-            'kategori_id' => $request->kategori_id,
             'daerah_id' => $request->daerah_id,
             'deskripsi' => $request->deskripsi,
             'bahan_utama' => $request->bahan_utama ?? '-',
             'cara_penyajian' => $request->cara_penyajian ?? '-',
             'rating' => $request->rating,
             'gambar' => $imagePath,
+            'gmaps_link' => $request->gmaps_link,
         ]);
 
         return redirect()->route('admin')->with('success', 'Kuliner berhasil ditambahkan!');

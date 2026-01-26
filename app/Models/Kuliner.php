@@ -13,19 +13,14 @@ class Kuliner extends Model
 
     protected $fillable = [
         'nama_kuliner',
-        'kategori_id',
         'daerah_id',
         'deskripsi',
         'bahan_utama',
         'cara_penyajian',
         'gambar',
         'rating',
+        'gmaps_link',
     ];
-
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
-    }
 
     public function daerah()
     {

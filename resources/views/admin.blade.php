@@ -409,10 +409,6 @@
                 <span class="stat-label">Total Menu</span>
                 <span class="stat-value">{{ $kuliners->count() }}</span>
             </div>
-            <div class="stat-card" style="border-left-color: #1abc9c;">
-                <span class="stat-label">Kategori Tersedia</span>
-                <span class="stat-value">{{ $kategoris->count() }}</span>
-            </div>
             <div class="stat-card" style="border-left-color: #3498db;">
                 <span class="stat-label">Daerah Terjangkau</span>
                 <span class="stat-value">{{ $daerahs->count() }}</span>
@@ -452,7 +448,7 @@
             @forelse($kuliners as $kuliner)
             <div class="kuliner-card">
                 <div class="card-img-wrapper">
-                    <img src="{{ Storage::url($kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-img">
+                    <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-img">
                     <div class="card-overlay">
                         <i class="fas fa-star"></i> {{ $kuliner->rating ?? '0' }}
                     </div>
@@ -460,11 +456,17 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ $kuliner->nama_kuliner }}</h3>
                     <div class="card-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-tag"></i> {{ $kuliner->kategori->nama_kategori ?? 'Umum' }}
+                        @if($kuliner->gmaps_link)
+                        <a href="{{ $kuliner->gmaps_link }}" target="_blank" class="meta-item" style="text-decoration: none; color: #ff6b35;">
+                            <i class="fas fa-map-marked-alt"></i> Lihat di Peta
+                        </a>
+                        @else
+                        <div class="meta-item" style="color: #aaa;">
+                            <i class="fas fa-map-marker-alt"></i> Lokasi tidak tersedia
                         </div>
+                        @endif
                         <div class="meta-item">
-                            <i class="fas fa-map-marker-alt"></i> {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
+                            <i class="fas fa-map-pin"></i> {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
                         </div>
                     </div>
                     <p class="card-desc">{{ $kuliner->deskripsi }}</p>
@@ -509,15 +511,6 @@
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
-                            <label class="form-label">Kategori</label>
-                            <select name="kategori_id" class="form-select" required>
-                                <option value="">Pilih...</option>
-                                @foreach($kategoris as $kategori)
-                                    <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label class="form-label">Daerah Asal</label>
                             <select name="daerah_id" class="form-select" required>
                                 <option value="">Pilih...</option>
@@ -525,6 +518,10 @@
                                     <option value="{{ $daerah->id }}">{{ $daerah->nama_daerah }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Link Google Maps</label>
+                            <input type="url" name="gmaps_link" class="form-input" placeholder="https://maps.google.com/..." required>
                         </div>
                     </div>
 

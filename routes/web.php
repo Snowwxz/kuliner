@@ -9,6 +9,16 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
     if ($request->has('daerah')) {
         $query->where('daerah_id', $request->daerah);
     }
+
+    if ($request->has('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('nama_kuliner', 'like', "%{$search}%")
+              ->orWhereHas('daerah', function($q) use ($search) {
+                  $q->where('nama_daerah', 'like', "%{$search}%");
+              });
+        });
+    }
     
     $kuliners = $query->get();
     $daerahs = App\Models\Daerah::all();

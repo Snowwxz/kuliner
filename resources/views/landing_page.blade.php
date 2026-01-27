@@ -576,11 +576,11 @@
                 Dari Sabang sampai Merauke, temukan cita rasa autentik Indonesia yang menggugah selera
             </p>
 
-            <div class="search-box">
+            <form action="{{ route('landing') }}" method="GET" class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Cari makanan atau lokasi...">
-                <button class="btn-search">Cari Sekarang</button>
-            </div>
+                <input type="text" name="search" placeholder="Cari makanan atau lokasi..." value="{{ request('search') }}">
+                <button type="submit" class="btn-search">Cari Sekarang</button>
+            </form>
 
             <div class="popular-tags">
                 <span class="popular-label">Populer:</span>
@@ -599,6 +599,8 @@
                 <h2>
                     @if(request('daerah') && $selectedDaerah = $daerahs->find(request('daerah')))
                         Kuliner di {{ $selectedDaerah->nama_daerah }}
+                    @elseif(request('search'))
+                        Hasil Pencarian: "{{ request('search') }}"
                     @else
                         Rekomendasi Kuliner Terbaik
                     @endif
@@ -606,6 +608,8 @@
                 <p>
                     @if(request('daerah'))
                         Menampilkan hasil pencarian berdasarkan daerah pilihan Anda
+                    @elseif(request('search'))
+                        Menampilkan hasil pencarian untuk "{{ request('search') }}"
                     @else
                         Nikmati hidangan dengan rating tertinggi pilihan kami
                     @endif
@@ -632,8 +636,21 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
         </div>
     </section>
+
+    <script>
+        document.querySelector('.search-icon').addEventListener('click', function() {
+            const searchInput = document.querySelector('input[name="search"]');
+            if (searchInput) {
+                // Scroll to search box smoothly
+                searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Focus the input after a short delay to allow scroll to start
+                setTimeout(() => {
+                    searchInput.focus();
+                }, 500);
+            }
+        });
+    </script>
 </body>
 </html>

@@ -18,6 +18,13 @@ class KulinerController extends Controller
         return view('admin', compact('kuliners', 'daerahs'));
     }
 
+    public function show($id)
+    {
+        $kuliner = Kuliner::with('daerah')->findOrFail($id);
+        $daerahs = Daerah::all(); // For the navbar dropdown
+        return view('detail', compact('kuliner', 'daerahs'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

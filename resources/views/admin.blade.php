@@ -383,6 +383,7 @@
             <div class="nav-links" style="display: flex; gap: 20px;">
                 <a href="{{ route('admin') }}" style="color: white; text-decoration: none; font-weight: 700;">Kuliner</a>
                 <a href="{{ route('daerah') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Daerah</a>
+                <a href="{{ route('feedback.index') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Feedback</a>
             </div>
         </div>
         <div class="nav-actions">

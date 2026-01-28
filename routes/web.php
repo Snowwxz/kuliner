@@ -31,6 +31,7 @@ Route::get('/welcome', function () {
 });
 
 // Auth Routes
+Route::get('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'show'])->name('kuliner.detail');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -46,4 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/daerah', [App\Http\Controllers\DaerahController::class, 'index'])->name('daerah');
     Route::post('/daerah', [App\Http\Controllers\DaerahController::class, 'store'])->name('daerah.store');
     Route::delete('/daerah/{id}', [App\Http\Controllers\DaerahController::class, 'destroy'])->name('daerah.destroy');
+
+    Route::get('/feedback', [App\Http\Controllers\FeedbackController::class, 'index'])->name('feedback.index');
 });

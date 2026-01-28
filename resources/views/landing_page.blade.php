@@ -618,7 +618,7 @@
 
             <div class="kuliner-grid">
                 @foreach($kuliners as $kuliner)
-                <div class="kuliner-card">
+                <a href="{{ route('kuliner.detail', $kuliner->id) }}" class="kuliner-card">
                     <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-image">
                     <div class="card-content">
                         <div class="card-header">
@@ -634,7 +634,7 @@
                             {{ $kuliner->deskripsi }}
                         </p>
                     </div>
-                </div>
+                </a>
                 @endforeach
         </div>
     </section>

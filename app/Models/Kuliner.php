@@ -30,4 +30,14 @@ class Kuliner extends Model
     {
         return $this->belongsTo(Daerah::class, 'daerah_id');
     }
+
+    public function ulasan()
+    {
+        return $this->hasMany(Ulasan::class, 'kuliner_id');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return round($this->ulasan()->avg('rating'), 1) ?: 0;
+    }
 }

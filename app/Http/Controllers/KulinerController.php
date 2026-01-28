@@ -20,7 +20,7 @@ class KulinerController extends Controller
 
     public function show($id)
     {
-        $kuliner = Kuliner::with('daerah')->findOrFail($id);
+        $kuliner = Kuliner::with(['daerah', 'ulasan'])->findOrFail($id);
         $daerahs = Daerah::all(); // For the navbar dropdown
         return view('detail', compact('kuliner', 'daerahs'));
     }
@@ -116,5 +116,23 @@ class KulinerController extends Controller
         $kuliner->delete();
 
         return redirect()->route('admin')->with('success', 'Kuliner berhasil dihapus!');
+    }
+
+    public function storeUlasan(Request $request, $id)
+    {
+        $request->validate([
+            'nama_pengulas' => 'required|string|max:100',
+            'isi_ulasan' => 'required|string',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        \App\Models\Ulasan::create([
+            'kuliner_id' => $id,
+            'nama_pengulas' => $request->nama_pengulas,
+            'rating' => $request->rating,
+            'isi_ulasan' => $request->isi_ulasan,
+        ]);
+
+        return redirect()->back()->with('success', 'Ulasan berhasil dikirim!');
     }
 }

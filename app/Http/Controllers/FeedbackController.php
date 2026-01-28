@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Feedback;
+use App\Models\Ulasan;
 use Illuminate\Http\Request;
 
 class FeedbackController extends Controller
 {
     public function index()
     {
-        $feedbacks = Feedback::latest()->get();
-        return view('Feedback', compact('feedbacks'));
+        $reviews = Ulasan::with('kuliner')->latest()->get();
+        return view('Feedback', compact('reviews'));
     }
 }

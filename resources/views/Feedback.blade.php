@@ -151,50 +151,67 @@
             margin-top: 5px;
         }
 
-        /* List Styling */
+        /* Card Grid Styling */
         .feedback-list {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 1px solid #eee;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            overflow: visible;
         }
 
         .feedback-item {
-            padding: 20px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background 0.2s;
-        }
-
-        .feedback-item:last-child {
-            border-bottom: none;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .feedback-item:hover {
-            background: #fafafa;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         .feedback-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             align-items: flex-start;
+        }
+        
+        .kuliner-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #fff0e6;
+            color: #ff6b35;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
         }
 
         .user-info h4 {
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             color: #333;
             margin-bottom: 3px;
         }
 
-        .user-info span {
-            font-size: 13px;
-            color: #888;
+        .user-info span { /* Reused for 'Pengunjung' label if needed, or remove */
+            font-size: 12px;
+            color: #999;
         }
 
         .rating-stars {
-            color: #ffca28;
+            color: #ffc107;
             font-size: 14px;
         }
 
@@ -202,14 +219,25 @@
             color: #555;
             font-size: 14px;
             line-height: 1.6;
+            margin-bottom: 15px;
+            font-style: italic;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
         }
 
         .timestamp {
             font-size: 12px;
             color: #aaa;
-            margin-top: 10px;
             text-align: right;
-            display: block;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+        }
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 40px; text-align: center; color: #888;
+            background: white; border-radius: 15px;
         }
     </style>
 </head>
@@ -266,42 +294,53 @@
             <!-- Content Header -->
             <div class="content-header">
                 <div class="section-title">
-                    <h2>Daftar Feedback</h2>
-                    <p>Ulasan dan masukan dari pengguna</p>
+                    <h2>Daftar Ulasan Pengguna</h2>
+                    <p>Memantau ulasan yang masuk untuk setiap kuliner</p>
                 </div>
             </div>
 
-            <!-- Feedback List -->
+            <!-- Feedback List (Cards) -->
             <div class="feedback-list">
-                @forelse($feedbacks as $feedback)
+                @forelse($reviews as $review)
                 <div class="feedback-item">
+                    
+                    @if($review->kuliner)
+                    <div class="kuliner-tag">
+                        <i class="fas fa-utensils"></i> {{ $review->kuliner->nama_kuliner }}
+                    </div>
+                    @else
+                    <div class="kuliner-tag" style="background: #eee; color: #888;">
+                        <i class="fas fa-info-circle"></i> Kuliner Terhapus
+                    </div>
+                    @endif
+
                     <div class="feedback-header">
                         <div class="user-info">
-                            <h4>{{ $feedback->name }}</h4>
-                            <span>{{ $feedback->email }}</span>
+                            <h4>{{ $review->nama_pengulas }}</h4>
+                            <span>Pengunjung</span>
                         </div>
-                        <div>
-                            <div class="rating-stars">
-                                @for($i = 0; $i < $feedback->rating; $i++)
-                                    <i class="fas fa-star"></i>
-                                @endfor
-                                @for($i = $feedback->rating; $i < 5; $i++)
-                                    <i class="far fa-star"></i>
-                                @endfor
-                            </div>
+                        <div class="rating-stars">
+                            @for($i = 0; $i < $review->rating; $i++)
+                                <i class="fas fa-star"></i>
+                            @endfor
+                            @for($i = $review->rating; $i < 5; $i++)
+                                <i class="far fa-star"></i>
+                            @endfor
                         </div>
                     </div>
+
                     <p class="feedback-message">
-                        "{{ $feedback->message }}"
+                        "{{ $review->isi_ulasan }}"
                     </p>
+
                     <span class="timestamp">
-                        <i class="far fa-clock"></i> {{ $feedback->created_at->diffForHumans() }}
+                        <i class="far fa-clock"></i> {{ $review->created_at->diffForHumans() }}
                     </span>
                 </div>
                 @empty
-                <div style="padding: 40px; text-align: center; color: #888;">
+                <div class="empty-state">
                     <i class="far fa-comment-dots" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
-                    <p>Belum ada feedback yang diterima.</p>
+                    <p>Belum ada ulasan yang diterima.</p>
                 </div>
                 @endforelse
             </div>

@@ -32,6 +32,7 @@ Route::get('/welcome', function () {
 
 // Auth Routes
 Route::get('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'show'])->name('kuliner.detail');
+Route::post('/kuliner/{id}/ulasan', [App\Http\Controllers\KulinerController::class, 'storeUlasan'])->name('kuliner.ulasan.store');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');

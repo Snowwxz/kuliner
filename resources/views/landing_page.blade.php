@@ -624,7 +624,7 @@
                         <div class="card-header">
                             <h3 class="card-title">{{ $kuliner->nama_kuliner }}</h3>
                             <div class="card-rating">
-                                <i class="fas fa-star"></i> {{ $kuliner->rating }}
+                                <i class="fas fa-star"></i> {{ $kuliner->average_rating }}
                             </div>
                         </div>
                         <div class="card-location">

@@ -11,25 +11,113 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background-color: #f8f9fa; min-height: 100vh; color: #333; }
         
-        /* Navbar */
-        .navbar {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        /* Sidebar Layout */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 260px;
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 100%);
+            padding: 30px 20px;
             color: white;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
-        .navbar-brand { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-link { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s; }
-        .nav-link:hover, .nav-link.active { color: white; font-weight: 700; }
-        .user-profile { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 35px; height: 35px; background: white; color: #ff6b35; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 
-        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .content-header { margin-bottom: 25px; }
+        .sidebar-brand {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            color: #ff6b35;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-infoo {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .logout-btn:hover { opacity: 1; }
+
+        /* Main Content Adjustment */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0; }
+        .content-header { margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
         .section-title h2 { font-size: 24px; font-weight: 700; color: #333; }
         .section-title p { color: #777; font-size: 14px; margin-top: 5px; }
 
@@ -63,62 +151,90 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <div class="navbar-brand">
-                <i class="fas fa-utensils" style="margin-right: 10px;"></i> Dashboard Admin
-            </div>
-            <div class="nav-links">
-                <a href="{{ route('admin') }}" class="nav-link">Kuliner</a>
-                <a href="{{ route('daerah') }}" class="nav-link active">Daerah</a>
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-utensils"></i> Admin
         </div>
         
-        <div class="user-profile">
-            <div class="avatar">{{ substr(Auth::user()->name ?? 'A', 0, 1) }}</div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">@csrf</form>
-            <button onclick="document.getElementById('logout-form').submit()" style="background:none; border:none; color:white; cursor:pointer;" title="Logout">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ route('landing') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin') }}" class="nav-link">
+                    <i class="fas fa-drumstick-bite"></i> Kuliner
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('daerah') }}" class="nav-link active">
+                    <i class="fas fa-map-marker-alt"></i> Daerah
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('feedback.index') }}" class="nav-link">
+                    <i class="fas fa-comment-dots"></i> Feedback
+                </a>
+            </li>
+        </ul>
+
+        <div class="user-section">
+            <div class="user-avatar">
+                {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
+            </div>
+            <div class="user-infoo">
+                <div class="user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
+            </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <button onclick="document.getElementById('logout-form').submit()" class="logout-btn" title="Logout">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
-    </nav>
+    </div>
 
-    <div class="container">
-        <div class="content-header">
-            <div class="section-title">
-                <h2>Daftar Daerah</h2>
-                <p>Wilayah kuliner yang tersedia</p>
-            </div>
-            <button class="btn-add" onclick="openModal()">
-                <i class="fas fa-plus"></i> Tambah Daerah
-            </button>
-        </div>
-
-        @if(session('success'))
-            <div style="background: #e6fffa; color: #2c7a7b; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #b2f5ea;">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
-            </div>
-        @endif
-
-        <div class="daerah-grid">
-            @forelse($daerahs as $daerah)
-            <div class="daerah-card">
-                <div class="daerah-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="daerah-info" style="flex: 1;">
-                    <h3>{{ $daerah->nama_daerah }}</h3>
-                    <p>{{ $daerah->keterangan ?? 'Tidak ada keterangan' }}</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="content-header">
+                <div class="section-title">
+                    <h2>Daftar Daerah</h2>
+                    <p>Wilayah kuliner yang tersedia</p>
                 </div>
-                <form action="{{ route('daerah.destroy', $daerah->id) }}" method="POST" onsubmit="return confirm('Hapus daerah ini?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" style="background:none; border:none; color: #e74c3c; cursor: pointer;">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </form>
+                <button class="btn-add" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Tambah Daerah
+                </button>
             </div>
-            @empty
-            <p style="color: #777;">Belum ada data daerah.</p>
-            @endforelse
+
+            @if(session('success'))
+                <div style="background: #e6fffa; color: #2c7a7b; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #b2f5ea;">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
+            @endif
+
+            <div class="daerah-grid">
+                @forelse($daerahs as $daerah)
+                <div class="daerah-card">
+                    <div class="daerah-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="daerah-info" style="flex: 1;">
+                        <h3>{{ $daerah->nama_daerah }}</h3>
+                        <p>{{ $daerah->keterangan ?? 'Tidak ada keterangan' }}</p>
+                    </div>
+                    <form action="{{ route('daerah.destroy', $daerah->id) }}" method="POST" onsubmit="return confirm('Hapus daerah ini?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" style="background:none; border:none; color: #e74c3c; cursor: pointer;">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+                @empty
+                <p style="color: #777;">Belum ada data daerah.</p>
+                @endforelse
+            </div>
         </div>
     </div>
 

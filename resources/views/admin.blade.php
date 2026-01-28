@@ -20,60 +20,76 @@
             color: #333;
         }
 
-        /* Top Navbar */
-        .navbar {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        /* Sidebar Layout */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 260px;
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 100%);
+            padding: 30px 20px;
             color: white;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
+        .sidebar-brand {
+            font-size: 24px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
 
-        .nav-actions {
+        .nav-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 20px;
-        }
-
-        .btn-home {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            gap: 15px;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 12px;
             transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section {
             display: flex;
             align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
 
-        .btn-home:hover {
-            background: white;
-            color: #ff6b35;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
             background: white;
             color: #ff6b35;
             border-radius: 50%;
@@ -83,11 +99,36 @@
             font-weight: 700;
         }
 
-        /* Container */
+        .user-infoo {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .logout-btn:hover { opacity: 1; }
+
+        /* Main Content Adjustment */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+        }
+        
         .container {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin: 0 auto;
+            padding: 0;
         }
 
         /* Stats Row */
@@ -160,138 +201,95 @@
             background: #f7931e;
         }
 
-        /* Card Grid */
-        .kuliner-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .kuliner-card {
+        /* Table Styling */
+        .table-container {
             background: white;
             border-radius: 15px;
-            overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            overflow: hidden;
             border: 1px solid #eee;
         }
 
-        .kuliner-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-
-        .card-img-wrapper {
-            position: relative;
-            height: 180px;
-            overflow: hidden;
-        }
-
-        .card-img {
+        .data-table {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+            border-collapse: collapse;
         }
 
-        .kuliner-card:hover .card-img {
-            transform: scale(1.05);
+        .data-table th, .data-table td {
+            padding: 15px 20px;
+            text-align: left;
+            vertical-align: middle;
         }
 
-        .card-overlay {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(255,255,255,0.9);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+        .data-table th {
+            background: #fdfdfd;
             font-weight: 600;
-            color: #ff6b35;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            color: #555;
+            border-bottom: 2px solid #eee;
+            font-size: 14px;
         }
 
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .data-table td {
+            border-bottom: 1px solid #f9f9f9;
             color: #333;
+            font-size: 14px;
         }
 
-        .card-meta {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 12px;
-            font-size: 12px;
-            color: #888;
+        .data-table tr:last-child td {
+            border-bottom: none;
         }
 
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .data-table tr:hover {
+            background-color: #fafafa;
         }
 
-        .card-desc {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-
-        .action-btn {
-            flex: 1;
-            padding: 8px;
-            border: none;
+        .thumb-img {
+            width: 50px;
+            height: 50px;
             border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: flex;
+            object-fit: cover;
+            border: 1px solid #eee;
+        }
+
+        .status-badge {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #fff8e1;
+            color: #ffc107;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            color: white;
+            background: #aaa; /* Default fallback */
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
             gap: 5px;
         }
 
-        .btn-edit {
-            background: #fff5f0;
-            color: #ff6b35;
-        }
-
-        .btn-edit:hover {
-            background: #ffe0d1;
-        }
-
-        .btn-delete {
-            background: #ffecec;
-            color: #ea4335;
-        }
-
-        .btn-delete:hover {
-            background: #ffd6d6;
-        }
+        .btn-edit-sm { background: #3498db; }
+        .btn-delete-sm { background: #e74c3c; }
+        .btn-sm:hover { opacity: 0.9; }
 
         /* Modal */
         .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -311,7 +309,7 @@
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
-            z-index: 1001; /* Ensure content is above overlay */
+            z-index: 1001;
         }
 
         .modal-header {
@@ -374,124 +372,169 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <div class="navbar-brand">
-                <i class="fas fa-utensils" style="margin-right: 10px;"></i> Dashboard Admin
-            </div>
-            <div class="nav-links" style="display: flex; gap: 20px;">
-                <a href="{{ route('admin') }}" style="color: white; text-decoration: none; font-weight: 700;">Kuliner</a>
-                <a href="{{ route('daerah') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Daerah</a>
-                <a href="{{ route('feedback.index') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Feedback</a>
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-utensils"></i> Admin
         </div>
-        <div class="nav-actions">
-            <!-- Reuse existing user profile section -->
-            <div class="user-profile">
-                <div class="avatar">
-                    {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
-                </div>
-                <!-- Logout Form Hidden but triggerable -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                <button onclick="document.getElementById('logout-form').submit()" style="background:none; border:none; color:white; cursor:pointer;" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ route('landing') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin') }}" class="nav-link active">
+                    <i class="fas fa-drumstick-bite"></i> Kuliner
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('daerah') }}" class="nav-link">
+                    <i class="fas fa-map-marker-alt"></i> Daerah
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('feedback.index') }}" class="nav-link">
+                    <i class="fas fa-comment-dots"></i> Feedback
+                </a>
+            </li>
+        </ul>
 
-    <div class="container">
-        <!-- Stats Widgets -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-label">Total Menu</span>
-                <span class="stat-value">{{ $kuliners->count() }}</span>
+        <div class="user-section">
+            <div class="user-avatar">
+                {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
             </div>
-            <div class="stat-card" style="border-left-color: #3498db;">
-                <span class="stat-label">Daerah Terjangkau</span>
-                <span class="stat-value">{{ $daerahs->count() }}</span>
+            <div class="user-infoo">
+                <div class="user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
             </div>
-        </div>
-
-        <!-- Content Header -->
-        <div class="content-header">
-            <div class="section-title">
-                <h2>Daftar Menu</h2>
-                <p>Kelola menu kuliner yang tersedia</p>
-            </div>
-            <button class="btn-add" onclick="openModal()">
-                <i class="fas fa-plus"></i> Tambah Menu
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <button onclick="document.getElementById('logout-form').submit()" class="logout-btn" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
+    </div>
 
-        <!-- Messages -->
-        @if(session('success'))
-            <div style="background: #e6fffa; color: #2c7a7b; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #b2f5ea;">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
-            </div>
-        @endif
-
-        @if ($errors->any())
-            <div style="background: #fff5f5; color: #c53030; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #feb2b2;">
-                <ul style="margin-left: 20px;">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <!-- Kuliner Grid Cards -->
-        <div class="kuliner-grid">
-            @forelse($kuliners as $kuliner)
-            <div class="kuliner-card">
-                <div class="card-img-wrapper">
-                    <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-img">
-                    <div class="card-overlay">
-                        <i class="fas fa-star"></i> {{ $kuliner->rating ?? '0' }}
-                    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Stats Widgets -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Total Menu</span>
+                    <span class="stat-value">{{ $kuliners->count() }}</span>
                 </div>
-                <div class="card-body">
-                    <h3 class="card-title">{{ $kuliner->nama_kuliner }}</h3>
-                    <div class="card-meta">
-                        @if($kuliner->gmaps_link)
-                        <a href="{{ $kuliner->gmaps_link }}" target="_blank" class="meta-item" style="text-decoration: none; color: #ff6b35;">
-                            <i class="fas fa-map-marked-alt"></i> Lihat di Peta
-                        </a>
-                        @else
-                        <div class="meta-item" style="color: #aaa;">
-                            <i class="fas fa-map-marker-alt"></i> Lokasi tidak tersedia
-                        </div>
-                        @endif
-                        <div class="meta-item">
-                            <i class="fas fa-map-pin"></i> {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
-                        </div>
-                    </div>
-                    <p class="card-desc">{{ $kuliner->deskripsi }}</p>
-                    
-                    <div class="card-actions">
-                        <button class="action-btn btn-edit">
-                            <i class="fas fa-pencil-alt"></i> Edit
-                        </button>
-                        <form action="{{ route('kuliner.destroy', $kuliner->id) }}" method="POST" style="flex:1;" onsubmit="return confirm('Hapus menu ini?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="action-btn btn-delete" style="width:100%;">
-                                <i class="fas fa-trash-alt"></i> Hapus
-                            </button>
-                        </form>
-                    </div>
+                <div class="stat-card" style="border-left-color: #3498db;">
+                    <span class="stat-label">Daerah Terjangkau</span>
+                    <span class="stat-value">{{ $daerahs->count() }}</span>
                 </div>
             </div>
-            @empty
-            <div style="grid-column: 1/-1; text-align: center; padding: 50px; color: #888;">
-                <i class="fas fa-utensils" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
-                <p>Belum ada menu kuliner yang ditambahkan.</p>
+
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="section-title">
+                    <h2>Daftar Menu</h2>
+                    <p>Kelola menu kuliner yang tersedia</p>
+                </div>
+                <button class="btn-add" onclick="openModal()">
+                    <i class="fas fa-plus"></i> Tambah Menu
+                </button>
             </div>
-            @endforelse
+
+            <!-- Messages -->
+            @if(session('success'))
+                <div style="background: #e6fffa; color: #2c7a7b; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #b2f5ea;">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div style="background: #fff5f5; color: #c53030; padding: 15px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #feb2b2;">
+                    <ul style="margin-left: 20px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Kuliner Table -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th width="50">No</th>
+                            <th width="80">Foto</th>
+                            <th>Nama Menu</th>
+                            <th>Harga</th>
+                            <th>Jam Operasional</th>
+                            <th>Daerah Asal</th>
+                            <th>Rating</th>
+                            <th width="150">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($kuliners as $index => $kuliner)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>
+                                <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="Thumb" class="thumb-img">
+                            </td>
+                            <td>
+                                <div style="font-weight: 600;">{{ $kuliner->nama_kuliner }}</div>
+                                <div style="font-size: 12px; color: #888;">{{ Str::limit($kuliner->alamat, 40) }}</div>
+                                <div style="font-size: 11px; color: #aaa; font-style: italic;">{{ Str::limit($kuliner->deskripsi, 30) }}</div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 500; color: #2ecc71;">{{ $kuliner->harga ?? '-' }}</div>
+                            </td>
+                            <td>
+                                <div style="font-size: 13px; color: #555;">
+                                    @if($kuliner->jam_buka && $kuliner->jam_tutup)
+                                        <i class="far fa-clock"></i> {{ $kuliner->jam_buka }} - {{ $kuliner->jam_tutup }}
+                                    @else
+                                        -
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                <span style="display: inline-block; background: #f0f0f0; padding: 3px 10px; border-radius: 15px; font-size: 12px; color: #555;">
+                                    {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="status-badge">
+                                    <i class="fas fa-star" style="font-size: 10px;"></i> {{ $kuliner->rating }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-sm btn-edit-sm" title="Edit" onclick='editKuliner(@json($kuliner))'>
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <form action="{{ route('kuliner.destroy', $kuliner->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus menu ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-sm btn-delete-sm" title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: #888;">
+                                <i class="fas fa-utensils" style="font-size: 32px; margin-bottom: 15px; opacity: 0.3; display: block;"></i>
+                                Belum ada menu kuliner yang ditambahkan.
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -499,21 +542,22 @@
     <div id="kulinerModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Tambah Menu Baru</h3>
+                <h3 class="modal-title" id="modalTitle">Tambah Menu Baru</h3>
                 <button type="button" class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('kuliner.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="kulinerForm" action="{{ route('kuliner.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <div id="methodField"></div>
                     <div class="form-group">
                         <label class="form-label">Nama Menu</label>
-                        <input type="text" name="nama_kuliner" class="form-input" placeholder="Contoh: Soto Banjar" required>
+                        <input type="text" name="nama_kuliner" id="nama_kuliner" class="form-input" placeholder="Contoh: Soto Banjar" required>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
                             <label class="form-label">Daerah Asal</label>
-                            <select name="daerah_id" class="form-select" required>
+                            <select name="daerah_id" id="daerah_id" class="form-select" required>
                                 <option value="">Pilih...</option>
                                 @foreach($daerahs as $daerah)
                                     <option value="{{ $daerah->id }}">{{ $daerah->nama_daerah }}</option>
@@ -522,30 +566,51 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Link Google Maps</label>
-                            <input type="url" name="gmaps_link" class="form-input" placeholder="https://maps.google.com/..." required>
+                            <input type="url" name="gmaps_link" id="gmaps_link" class="form-input" placeholder="https://maps.google.com/..." required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Harga</label>
+                        <input type="text" name="harga" id="harga" class="form-input" placeholder="Contoh: Rp 25.000 / porsi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Alamat Lengkap</label>
+                        <textarea name="alamat" id="alamat" class="form-textarea" rows="2" placeholder="Masukkan alamat lengkap lokasi..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group">
+                            <label class="form-label">Jam Buka</label>
+                            <input type="time" name="jam_buka" id="jam_buka" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jam Tutup</label>
+                            <input type="time" name="jam_tutup" id="jam_tutup" class="form-input">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Deskripsi Singkat</label>
-                        <textarea name="deskripsi" class="form-textarea" rows="3" placeholder="Jelaskan keunikan menu ini..." required></textarea>
+                        <textarea name="deskripsi" id="deskripsi" class="form-textarea" rows="3" placeholder="Jelaskan keunikan menu ini..." required></textarea>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Rating (1-5)</label>
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <input type="range" name="rating" min="1" max="5" value="5" class="form-input" oninput="this.nextElementSibling.innerText = this.value">
-                            <span style="font-weight: bold; color: #ff6b35;">5</span> <i class="fas fa-star" style="color: #ff6b35;"></i>
+                            <input type="range" name="rating" id="rating" min="1" max="5" value="5" class="form-input" oninput="this.nextElementSibling.innerText = this.value">
+                            <span id="ratingValue" style="font-weight: bold; color: #ff6b35;">5</span> <i class="fas fa-star" style="color: #ff6b35;"></i>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Foto Menu</label>
-                        <input type="file" name="gambar" class="form-input" accept="image/*" required>
-                        <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">Format: JPG, PNG, Max: 2MB</small>
+                        <input type="file" name="gambar" id="gambar" class="form-input" accept="image/*">
+                        <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">Format: JPG, PNG, Max: 2MB. Biarkan kosong jika tidak ingin mengubah gambar (saat edit).</small>
                     </div>
 
-                    <button type="submit" class="submit-btn">
+                    <button type="submit" class="submit-btn" id="submitBtn">
                         <i class="fas fa-save"></i> Simpan Menu
                     </button>
                 </form>
@@ -556,11 +621,53 @@
     <script>
         // Modal functions
         function openModal() {
+            // Reset form for "Add" mode
+            document.getElementById('kulinerForm').action = "{{ route('kuliner.store') }}";
+            document.getElementById('methodField').innerHTML = '';
+            document.getElementById('modalTitle').innerText = 'Tambah Menu Baru';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Menu';
+            document.getElementById('nama_kuliner').value = '';
+            document.getElementById('daerah_id').value = '';
+            document.getElementById('gmaps_link').value = '';
+            document.getElementById('harga').value = '';
+            document.getElementById('alamat').value = '';
+            document.getElementById('jam_buka').value = '';
+            document.getElementById('jam_tutup').value = '';
+            document.getElementById('deskripsi').value = '';
+            document.getElementById('rating').value = 5;
+            document.getElementById('ratingValue').innerText = 5;
+            document.getElementById('gambar').required = true; // Image required for new items
+            
             document.getElementById('kulinerModal').style.display = 'flex';
         }
 
         function closeModal() {
             document.getElementById('kulinerModal').style.display = 'none';
+        }
+
+        function editKuliner(data) {
+            // Populate form for "Edit" mode
+            let updateUrl = "{{ route('kuliner.update', ':id') }}";
+            updateUrl = updateUrl.replace(':id', data.id);
+            
+            document.getElementById('kulinerForm').action = updateUrl;
+            document.getElementById('methodField').innerHTML = '<input type="hidden" name="_method" value="PUT">';
+            document.getElementById('modalTitle').innerText = 'Edit Menu Kuliner';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
+            
+            document.getElementById('nama_kuliner').value = data.nama_kuliner;
+            document.getElementById('daerah_id').value = data.daerah_id;
+            document.getElementById('gmaps_link').value = data.gmaps_link;
+            document.getElementById('harga').value = data.harga;
+            document.getElementById('alamat').value = data.alamat;
+            document.getElementById('jam_buka').value = data.jam_buka;
+            document.getElementById('jam_tutup').value = data.jam_tutup;
+            document.getElementById('deskripsi').value = data.deskripsi;
+            document.getElementById('rating').value = data.rating;
+            document.getElementById('ratingValue').innerText = data.rating;
+            document.getElementById('gambar').required = false; // Image not required for update
+            
+            document.getElementById('kulinerModal').style.display = 'flex';
         }
 
         // Close when clicking outside

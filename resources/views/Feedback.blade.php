@@ -20,40 +20,76 @@
             color: #333;
         }
 
-        /* Top Navbar */
-        .navbar {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        /* Sidebar Layout */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 260px;
+            background: linear-gradient(180deg, #ff6b35 0%, #f7931e 100%);
+            padding: 30px 20px;
             color: white;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
 
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
+        .sidebar-brand {
+            font-size: 24px;
+            font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
 
-        .nav-actions {
+        .nav-menu {
+            list-style: none;
+            flex: 1;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
-        .user-profile {
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-section {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
         }
 
-        .avatar {
-            width: 35px;
-            height: 35px;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
             background: white;
             color: #ff6b35;
             border-radius: 50%;
@@ -63,41 +99,36 @@
             font-weight: 700;
         }
 
-        /* Container */
+        .user-infoo {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .logout-btn:hover { opacity: 1; }
+
+        /* Main Content Adjustment */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+        }
+        
         .container {
             max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        /* Stats Row */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            border-left: 5px solid #ff6b35;
-        }
-
-        .stat-label {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #333;
+            margin: 0 auto;
+            padding: 0;
         }
 
         /* Content Section */
@@ -184,78 +215,98 @@
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <div class="navbar-brand">
-                <i class="fas fa-utensils" style="margin-right: 10px;"></i> Dashboard Admin
-            </div>
-            <div class="nav-links" style="display: flex; gap: 20px;">
-                <a href="{{ route('admin') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Kuliner</a>
-                <a href="{{ route('daerah') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Daerah</a>
-                <a href="{{ route('feedback.index') }}" style="color: white; text-decoration: none; font-weight: 700;">Feedback</a>
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-utensils"></i> Admin
         </div>
-        <div class="nav-actions">
-            <!-- Reuse existing user profile section -->
-            <div class="user-profile">
-                <div class="avatar">
-                    {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
-                </div>
-                <!-- Logout Form Hidden but triggerable -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                <button onclick="document.getElementById('logout-form').submit()" style="background:none; border:none; color:white; cursor:pointer;" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
+        
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ route('landing') }}" class="nav-link">
+                    <i class="fas fa-home"></i> Halaman Utama
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin') }}" class="nav-link">
+                    <i class="fas fa-drumstick-bite"></i> Kuliner
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('daerah') }}" class="nav-link">
+                    <i class="fas fa-map-marker-alt"></i> Daerah
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('feedback.index') }}" class="nav-link active">
+                    <i class="fas fa-comment-dots"></i> Feedback
+                </a>
+            </li>
+        </ul>
 
-    <div class="container">
-        <!-- Content Header -->
-        <div class="content-header">
-            <div class="section-title">
-                <h2>Daftar Feedback</h2>
-                <p>Ulasan dan masukan dari pengguna</p>
+        <div class="user-section">
+            <div class="user-avatar">
+                {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
             </div>
-        </div>
-
-        <!-- Feedback List -->
-        <div class="feedback-list">
-            @forelse($feedbacks as $feedback)
-            <div class="feedback-item">
-                <div class="feedback-header">
-                    <div class="user-info">
-                        <h4>{{ $feedback->name }}</h4>
-                        <span>{{ $feedback->email }}</span>
-                    </div>
-                    <div>
-                        <div class="rating-stars">
-                            @for($i = 0; $i < $feedback->rating; $i++)
-                                <i class="fas fa-star"></i>
-                            @endfor
-                            @for($i = $feedback->rating; $i < 5; $i++)
-                                <i class="far fa-star"></i>
-                            @endfor
-                        </div>
-                    </div>
-                </div>
-                <p class="feedback-message">
-                    "{{ $feedback->message }}"
-                </p>
-                <span class="timestamp">
-                    <i class="far fa-clock"></i> {{ $feedback->created_at->diffForHumans() }}
-                </span>
+            <div class="user-infoo">
+                <div class="user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
             </div>
-            @empty
-            <div style="padding: 40px; text-align: center; color: #888;">
-                <i class="far fa-comment-dots" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
-                <p>Belum ada feedback yang diterima.</p>
-            </div>
-            @endforelse
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <button onclick="document.getElementById('logout-form').submit()" class="logout-btn" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
         </div>
     </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div class="section-title">
+                    <h2>Daftar Feedback</h2>
+                    <p>Ulasan dan masukan dari pengguna</p>
+                </div>
+            </div>
+
+            <!-- Feedback List -->
+            <div class="feedback-list">
+                @forelse($feedbacks as $feedback)
+                <div class="feedback-item">
+                    <div class="feedback-header">
+                        <div class="user-info">
+                            <h4>{{ $feedback->name }}</h4>
+                            <span>{{ $feedback->email }}</span>
+                        </div>
+                        <div>
+                            <div class="rating-stars">
+                                @for($i = 0; $i < $feedback->rating; $i++)
+                                    <i class="fas fa-star"></i>
+                                @endfor
+                                @for($i = $feedback->rating; $i < 5; $i++)
+                                    <i class="far fa-star"></i>
+                                @endfor
+                            </div>
+                        </div>
+                    </div>
+                    <p class="feedback-message">
+                        "{{ $feedback->message }}"
+                    </p>
+                    <span class="timestamp">
+                        <i class="far fa-clock"></i> {{ $feedback->created_at->diffForHumans() }}
+                    </span>
+                </div>
+                @empty
+                <div style="padding: 40px; text-align: center; color: #888;">
+                    <i class="far fa-comment-dots" style="font-size: 48px; margin-bottom: 15px; opacity: 0.3;"></i>
+                    <p>Belum ada feedback yang diterima.</p>
+                </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

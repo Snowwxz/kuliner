@@ -112,7 +112,7 @@
             <h1 class="detail-title">{{ $kuliner->nama_kuliner }}</h1>
             <div class="detail-meta">
                 <div class="meta-item">
-                    <i class="fas fa-map-marker-alt"></i> {{ $kuliner->daerah->nama_daerah }}
+                    <i class="fas fa-map-marker-alt"></i> {{ $kuliner->daerah->nama_daerah }} {{ $kuliner->alamat ? '• ' . $kuliner->alamat : '' }}
                 </div>
                 <div class="meta-item">
                     <i class="fas fa-star rating-star"></i> {{ $kuliner->rating }}/5
@@ -141,13 +141,28 @@
                 <div class="sidebar-card">
                     <h3 class="sidebar-title">Informasi Utama</h3>
                     <ul class="info-list">
+
                         <li class="info-item">
-                            <span class="info-label">Kategori</span>
-                            <span class="info-value">Makanan Utama</span>
+                            <span class="info-label">Harga</span>
+                            <span class="info-value" style="color: #2ecc71;">{{ $kuliner->harga ?? '-' }}</span>
+                        </li>
+                        <li class="info-item">
+                            <span class="info-label">Jam Operasional</span>
+                            <span class="info-value">
+                                @if($kuliner->jam_buka && $kuliner->jam_tutup)
+                                    {{ $kuliner->jam_buka }} - {{ $kuliner->jam_tutup }}
+                                @else
+                                    -
+                                @endif
+                            </span>
                         </li>
                         <li class="info-item">
                             <span class="info-label">Daerah Asal</span>
                             <span class="info-value">{{ $kuliner->daerah->nama_daerah }}</span>
+                        </li>
+                        <li class="info-item" style="flex-direction: column; align-items: flex-start; gap: 5px;">
+                            <span class="info-label">Alamat Lengkap</span>
+                            <span class="info-value" style="font-weight: 400; font-size: 13px; line-height: 1.5;">{{ $kuliner->alamat ?? '-' }}</span>
                         </li>
                         <li class="info-item">
                             <span class="info-label">Rating</span>

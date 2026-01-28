@@ -20,6 +20,10 @@ class Kuliner extends Model
         'gambar',
         'rating',
         'gmaps_link',
+        'harga',
+        'alamat',
+        'jam_buka',
+        'jam_tutup',
     ];
 
     public function daerah()

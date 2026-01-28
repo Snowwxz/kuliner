@@ -42,6 +42,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function () {
     Route::get('/admin', [App\Http\Controllers\KulinerController::class, 'index'])->name('admin');
     Route::post('/kuliner', [App\Http\Controllers\KulinerController::class, 'store'])->name('kuliner.store');
+    Route::put('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'update'])->name('kuliner.update');
     Route::delete('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'destroy'])->name('kuliner.destroy');
     
     Route::get('/daerah', [App\Http\Controllers\DaerahController::class, 'index'])->name('daerah');

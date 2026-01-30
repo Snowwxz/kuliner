@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KulinerNusantara - Jelajahi Kelezatan Nusantara</title>
+    <title>KulinerKaltim - Jelajahi Kelezatan Kaltim</title>
     <meta name="description" content="Temukan 1000+ destinasi kuliner Indonesia dari Sabang sampai Merauke. Jelajahi cita rasa autentik Indonesia yang menggugah selera.">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -69,6 +69,8 @@
             align-items: center;
             gap: 40px;
             list-style: none;
+            margin-left: 80px;
+            margin-right: auto;
         }
 
         .nav-links a {
@@ -147,41 +149,84 @@
             display: none; /* Remove underline from dropdown items */
         }
 
+        /* Search Dropdown Styles */
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+        }
+
+        .search-container {
+            position: relative;
         }
 
         .search-icon {
-            font-size: 18px;
+            font-size: 20px;
             color: #555;
             cursor: pointer;
-            transition: color 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
         }
 
         .search-icon:hover {
+            background: #fff5f0;
             color: #ff6b35;
         }
 
-        .btn-jelajah {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
+        .search-dropdown {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: white;
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            width: 300px;
+            border: 1px solid #eee;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
         }
 
-        .btn-jelajah:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        .search-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .search-dropdown input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 5px 15px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-dropdown button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .search-dropdown button:hover {
+            background: #e65a26;
         }
 
         /* Hero Section */
@@ -218,9 +263,9 @@
             height: 100%;
             background: linear-gradient(
                 to bottom,
-                rgba(0, 0, 0, 0.3) 0%,
-                rgba(0, 0, 0, 0.5) 50%,
-                rgba(0, 0, 0, 0.7) 100%
+                rgba(0, 0, 0, 0.4) 0%,
+                rgba(0, 0, 0, 0.2) 60%,
+                #f9f9f9 100%
             );
             z-index: -1;
         }
@@ -321,37 +366,7 @@
             box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
         }
 
-        /* Popular Tags */
-        .popular-tags {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
 
-        .popular-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-        }
-
-        .tag {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .tag:hover {
-            background: rgba(255, 107, 53, 0.8);
-            border-color: #ff6b35;
-            transform: translateY(-2px);
-        }
 
         /* Responsive */
         @media (max-width: 992px) {
@@ -399,15 +414,6 @@
 
             .btn-search {
                 width: 100%;
-            }
-
-            .popular-tags {
-                gap: 10px;
-            }
-
-            .tag {
-                padding: 6px 15px;
-                font-size: 12px;
             }
         }
 
@@ -526,38 +532,43 @@
             <div class="logo-icon">
                 <i class="fas fa-utensils"></i>
             </div>
-            <span>Kuliner<span class="highlight">Nusantara</span></span>
+            <span>Kuliner<span class="highlight">Kaltim </span></span>
         </a>
 
         <ul class="nav-links">
             <li><a href="{{ route('landing') }}">Beranda</a></li>
+            <li><a href="{{ route('public.kuliner') }}">Kuliner</a></li>
             <li class="dropdown">
                 <a href="#destinasi">Daerah <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i></a>
                 <div class="dropdown-menu">
-
                     @foreach($daerahs as $daerah)
                         <a href="{{ route('landing', ['daerah' => $daerah->id]) }}" class="dropdown-item">{{ $daerah->nama_daerah }}</a>
                     @endforeach
                 </div>
             </li>
+            <li><a href="{{ route('public.resto') }}">Resto</a></li>
             <li><a href="#tentang">Tentang</a></li>
         </ul>
 
         <div class="nav-right">
-            <i class="fas fa-search search-icon"></i>
-            <a href="#destinasi" class="btn-jelajah">
-                <i class="fas fa-compass"></i>
-                Jelajah
-            </a>
+            <div class="search-container">
+                <i class="fas fa-search search-icon" id="searchIcon"></i>
+                <form action="{{ route('landing') }}" method="GET" class="search-dropdown" id="searchDropdown">
+                    <input type="text" name="search" placeholder="Cari kuliner..." value="{{ request('search') }}">
+                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
+                </form>
+            </div>
         </div>
+
+
     </nav>
 
     <!-- Hero Section -->
     <section class="hero" id="beranda">
         <div class="hero-background">
             <!-- Background image placeholder - ganti dengan gambar makanan Indonesia -->
-            <img src="{{ asset('images/hero-food-bg.jpg') }}" alt="Indonesian Food Background" 
-                 onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';">
+            <img src="{{ asset('storage/kuliner_images/image.png') }}" alt="Kuliner Kalimantan Background" 
+                 onerror="this.parentElement.style.background='linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';">
         </div>
         <div class="hero-overlay"></div>
 
@@ -568,27 +579,17 @@
             </div>
 
             <h1 class="hero-title">
-                Jelajahi Kelezatan
-                <span class="highlight">Nusantara</span>
+                Jelajahi Kuliner
+                <span class="highlight">Kalimantan</span>
             </h1>
 
             <p class="hero-subtitle">
                 Dari Sabang sampai Merauke, temukan cita rasa autentik Indonesia yang menggugah selera
             </p>
 
-            <form action="{{ route('landing') }}" method="GET" class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" name="search" placeholder="Cari makanan atau lokasi..." value="{{ request('search') }}">
-                <button type="submit" class="btn-search">Cari Sekarang</button>
-            </form>
 
-            <div class="popular-tags">
-                <span class="popular-label">Populer:</span>
-                <a href="#" class="tag">Rendang</a>
-                <a href="#" class="tag">Sate Ayam</a>
-                <a href="#" class="tag">Nasi Goreng</a>
-                <a href="#" class="tag">Gado-Gado</a>
-            </div>
+
+
         </div>
     </section>
 
@@ -617,7 +618,7 @@
             </div>
 
             <div class="kuliner-grid">
-                @foreach($kuliners as $kuliner)
+                @foreach($kuliners->take(3) as $kuliner)
                 <a href="{{ route('kuliner.detail', $kuliner->id) }}" class="kuliner-card">
                     <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="{{ $kuliner->nama_kuliner }}" class="card-image">
                     <div class="card-content">
@@ -629,6 +630,10 @@
                         </div>
                         <div class="card-location">
                             <i class="fas fa-map-marker-alt"></i> {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
+                            @if($kuliner->resto)
+                                <span style="margin: 0 5px;">•</span>
+                                <i class="fas fa-store"></i> {{ $kuliner->resto->nama_resto }}
+                            @endif
                         </div>
                         <p class="card-desc">
                             {{ $kuliner->deskripsi }}
@@ -636,21 +641,85 @@
                     </div>
                 </a>
                 @endforeach
+            </div>
+
+            @if($kuliners->count() > 3)
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="{{ route('public.kuliner') }}" class="btn-jelajah" style="display: inline-flex;">
+                    Lihat Semua Kuliner <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                </a>
+            </div>
+            @endif
+    </section>
+
+    <!-- Resto Section -->
+    <section class="kuliner-section" style="background-color: white;">
+        <div class="section-container">
+            @if(!request('search'))
+            <div class="section-title">
+                <h2>Restoran Populer</h2>
+                <p>Tempat makan favorit dengan suasana terbaik</p>
+            </div>
+            @endif
+
+            <div class="kuliner-grid">
+                @foreach($restos->take(3) as $resto)
+                <a href="{{ route('resto.detail', $resto->id) }}" class="kuliner-card">
+                    <img src="{{ asset('storage/' . $resto->gambar) }}" alt="{{ $resto->nama_resto }}" class="card-image">
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ $resto->nama_resto }}</h3>
+                        </div>
+                        <div class="card-location">
+                            <i class="fas fa-map-marker-alt"></i> {{ $resto->daerah->nama_daerah ?? 'Indonesia' }}
+                        </div>
+                        <div class="card-location">
+                            <i class="far fa-clock"></i> {{ $resto->jam_buka }} - {{ $resto->jam_tutup }}
+                        </div>
+                        <p class="card-desc">
+                            {{ Str::limit($resto->deskripsi, 80) }}
+                        </p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+
+            @if($restos->count() > 3)
+             <div style="text-align: center; margin-top: 40px;">
+                <a href="{{ route('public.resto') }}" class="btn-jelajah" style="display: inline-flex;">
+                    Lihat Semua Resto <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                </a>
+            </div>
+            @endif
         </div>
     </section>
 
     <script>
-        document.querySelector('.search-icon').addEventListener('click', function() {
-            const searchInput = document.querySelector('input[name="search"]');
-            if (searchInput) {
-                // Scroll to search box smoothly
-                searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // Focus the input after a short delay to allow scroll to start
-                setTimeout(() => {
-                    searchInput.focus();
-                }, 500);
-            }
-        });
+        // Dropdown toggle logic
+        const searchIcon = document.getElementById('searchIcon');
+        const searchDropdown = document.getElementById('searchDropdown');
+
+        if(searchIcon && searchDropdown) {
+            searchIcon.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent click from closing immediately
+                searchDropdown.classList.toggle('active');
+                if(searchDropdown.classList.contains('active')) {
+                    searchDropdown.querySelector('input').focus();
+                }
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!searchDropdown.contains(e.target) && e.target !== searchIcon) {
+                    searchDropdown.classList.remove('active');
+                }
+            });
+
+            // Prevent closing when clicking inside the dropdown
+            searchDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
     </script>
 </body>
 </html>

@@ -266,6 +266,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="{{ route('resto.index') }}" class="nav-link">
+                    <i class="fas fa-store"></i> Resto
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{ route('feedback.index') }}" class="nav-link active">
                     <i class="fas fa-comment-dots"></i> Feedback
                 </a>

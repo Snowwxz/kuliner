@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function (\Illuminate\Http\Request $request) {
-    $query = App\Models\Kuliner::with('daerah')->orderBy('rating', 'desc');
+    $query = App\Models\Kuliner::with(['daerah', 'resto'])->orderBy('rating', 'desc');
     
     if ($request->has('daerah')) {
         $query->where('daerah_id', $request->daerah);
@@ -20,15 +20,33 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
         });
     }
     
-    $kuliners = $query->get();
+    $kuliners = $query->take(4)->get();
+    
+    $restoQuery = App\Models\Resto::with('daerah');
+
+    if ($request->has('search')) {
+        $search = $request->search;
+        $restoQuery->where(function($q) use ($search) {
+             $q->where('nama_resto', 'like', "%{$search}%")
+               ->orWhereHas('daerah', function($q) use ($search) {
+                   $q->where('nama_daerah', 'like', "%{$search}%");
+               });
+        });
+    }
+
+    $restos = $restoQuery->take(4)->get();
     $daerahs = App\Models\Daerah::all();
     
-    return view('landing_page', compact('kuliners', 'daerahs'));
+    return view('landing_page', compact('kuliners', 'restos', 'daerahs'));
 })->name('landing');
 
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::get('/restos', [App\Http\Controllers\RestoController::class, 'publicIndex'])->name('public.resto');
+Route::get('/kuliners', [App\Http\Controllers\KulinerController::class, 'publicIndex'])->name('public.kuliner');
+Route::get('/resto/{id}', [App\Http\Controllers\RestoController::class, 'show'])->name('resto.detail');
 
 // Auth Routes
 Route::get('/kuliner/{id}', [App\Http\Controllers\KulinerController::class, 'show'])->name('kuliner.detail');
@@ -50,5 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/daerah', [App\Http\Controllers\DaerahController::class, 'store'])->name('daerah.store');
     Route::delete('/daerah/{id}', [App\Http\Controllers\DaerahController::class, 'destroy'])->name('daerah.destroy');
 
+    Route::resource('resto', App\Http\Controllers\RestoController::class);
+    
     Route::get('/feedback', [App\Http\Controllers\FeedbackController::class, 'index'])->name('feedback.index');
 });

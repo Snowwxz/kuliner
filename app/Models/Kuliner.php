@@ -24,6 +24,7 @@ class Kuliner extends Model
         'alamat',
         'jam_buka',
         'jam_tutup',
+        'resto_id',
     ];
 
     public function daerah()
@@ -34,6 +35,11 @@ class Kuliner extends Model
     public function ulasan()
     {
         return $this->hasMany(Ulasan::class, 'kuliner_id');
+    }
+
+    public function resto()
+    {
+        return $this->belongsTo(Resto::class, 'resto_id');
     }
 
     public function getAverageRatingAttribute()

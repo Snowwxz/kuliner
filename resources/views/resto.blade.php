@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - KulinerNusantara</title>
+    <title>Dashboard Admin - Resto</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -251,18 +251,6 @@
             border: 1px solid #eee;
         }
 
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            background: #fff8e1;
-            color: #ffc107;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -385,18 +373,18 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('admin') }}" class="nav-link active">
+                <a href="{{ route('admin') }}" class="nav-link">
                     <i class="fas fa-drumstick-bite"></i> Kuliner
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('resto.index') }}" class="nav-link active">
+                    <i class="fas fa-store"></i> Resto
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('daerah') }}" class="nav-link">
                     <i class="fas fa-map-marker-alt"></i> Daerah
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('resto.index') }}" class="nav-link">
-                    <i class="fas fa-store"></i> Resto
                 </a>
             </li>
             <li class="nav-item">
@@ -428,8 +416,8 @@
             <!-- Stats Widgets -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-label">Total Menu</span>
-                    <span class="stat-value">{{ $kuliners->count() }}</span>
+                    <span class="stat-label">Total Resto</span>
+                    <span class="stat-value">{{ $restos->count() }}</span>
                 </div>
                 <div class="stat-card" style="border-left-color: #3498db;">
                     <span class="stat-label">Daerah Terjangkau</span>
@@ -440,11 +428,11 @@
             <!-- Content Header -->
             <div class="content-header">
                 <div class="section-title">
-                    <h2>Daftar Menu</h2>
-                    <p>Kelola menu kuliner yang tersedia</p>
+                    <h2>Daftar Restoran</h2>
+                    <p>Kelola restoran yang tersedia</p>
                 </div>
                 <button class="btn-add" onclick="openModal()">
-                    <i class="fas fa-plus"></i> Tambah Menu
+                    <i class="fas fa-plus"></i> Tambah Resto
                 </button>
             </div>
 
@@ -465,41 +453,38 @@
                 </div>
             @endif
 
-            <!-- Kuliner Table -->
+            <!-- Resto Table -->
             <div class="table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th width="50">No</th>
                             <th width="80">Foto</th>
-                            <th>Nama Menu</th>
-                            <th>Harga</th>
+                            <th>Nama Resto</th>
+                            <th>Alamat</th>
                             <th>Jam Operasional</th>
-                            <th>Daerah Asal</th>
-                            <th>Resto</th>
-                            <th>Rating</th>
+                            <th>Daerah</th>
                             <th width="150">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($kuliners as $index => $kuliner)
+                        @forelse($restos as $index => $resto)
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>
-                                <img src="{{ asset('storage/' . $kuliner->gambar) }}" alt="Thumb" class="thumb-img">
+                                <img src="{{ asset('storage/' . $resto->gambar) }}" alt="Thumb" class="thumb-img">
                             </td>
                             <td>
-                                <div style="font-weight: 600;">{{ $kuliner->nama_kuliner }}</div>
-                                <div style="font-size: 12px; color: #888;">{{ Str::limit($kuliner->alamat, 40) }}</div>
-                                <div style="font-size: 11px; color: #aaa; font-style: italic;">{{ Str::limit($kuliner->deskripsi, 30) }}</div>
+                                <div style="font-weight: 600;">{{ $resto->nama_resto }}</div>
+                                <div style="font-size: 11px; color: #aaa; font-style: italic;">{{ Str::limit($resto->deskripsi, 30) }}</div>
                             </td>
                             <td>
-                                <div style="font-weight: 500; color: #2ecc71;">{{ $kuliner->harga ?? '-' }}</div>
+                                <div style="font-size: 12px; color: #555;">{{ Str::limit($resto->alamat, 50) }}</div>
                             </td>
                             <td>
                                 <div style="font-size: 13px; color: #555;">
-                                    @if($kuliner->jam_buka && $kuliner->jam_tutup)
-                                        <i class="far fa-clock"></i> {{ $kuliner->jam_buka }} - {{ $kuliner->jam_tutup }}
+                                    @if($resto->jam_buka && $resto->jam_tutup)
+                                        <i class="far fa-clock"></i> {{ $resto->jam_buka }} - {{ $resto->jam_tutup }}
                                     @else
                                         -
                                     @endif
@@ -507,23 +492,15 @@
                             </td>
                             <td>
                                 <span style="display: inline-block; background: #f0f0f0; padding: 3px 10px; border-radius: 15px; font-size: 12px; color: #555;">
-                                    {{ $kuliner->daerah->nama_daerah ?? 'Indonesia' }}
+                                    {{ $resto->daerah->nama_daerah ?? 'Unknown' }}
                                 </span>
                             </td>
                             <td>
-                                <span style="font-weight: 500; color: #555;">{{ $kuliner->resto->nama_resto ?? '-' }}</span>
-                            </td>
-                            <td>
-                                <div class="status-badge">
-                                    <i class="fas fa-star" style="font-size: 10px;"></i> {{ $kuliner->rating }}
-                                </div>
-                            </td>
-                            <td>
                                 <div class="action-buttons">
-                                    <button class="btn-sm btn-edit-sm" title="Edit" onclick='editKuliner(@json($kuliner))'>
+                                    <button class="btn-sm btn-edit-sm" title="Edit" onclick='editResto(@json($resto))'>
                                         <i class="fas fa-pencil-alt"></i>
                                     </button>
-                                    <form action="{{ route('kuliner.destroy', $kuliner->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus menu ini?');">
+                                    <form action="{{ route('resto.destroy', $resto->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Hapus restoran ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-sm btn-delete-sm" title="Hapus">
@@ -535,9 +512,9 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px; color: #888;">
-                                <i class="fas fa-utensils" style="font-size: 32px; margin-bottom: 15px; opacity: 0.3; display: block;"></i>
-                                Belum ada menu kuliner yang ditambahkan.
+                            <td colspan="7" style="text-align: center; padding: 40px; color: #888;">
+                                <i class="fas fa-store" style="font-size: 32px; margin-bottom: 15px; opacity: 0.3; display: block;"></i>
+                                Belum ada restoran yang ditambahkan.
                             </td>
                         </tr>
                         @endforelse
@@ -548,51 +525,31 @@
     </div>
 
     <!-- Modal Form -->
-    <div id="kulinerModal" class="modal">
+    <div id="restoModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="modalTitle">Tambah Menu Baru</h3>
+                <h3 class="modal-title" id="modalTitle">Tambah Resto Baru</h3>
                 <button type="button" class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="kulinerForm" action="{{ route('kuliner.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="restoForm" action="{{ route('resto.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div id="methodField"></div>
                     <div class="form-group">
-                        <label class="form-label">Nama Menu</label>
-                        <input type="text" name="nama_kuliner" id="nama_kuliner" class="form-input" placeholder="Contoh: Soto Banjar" required>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <div class="form-group">
-                            <label class="form-label">Daerah Asal</label>
-                            <select name="daerah_id" id="daerah_id" class="form-select" required>
-                                <option value="">Pilih...</option>
-                                @foreach($daerahs as $daerah)
-                                    <option value="{{ $daerah->id }}">{{ $daerah->nama_daerah }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Resto (Opsional)</label>
-                            <select name="resto_id" id="resto_id" class="form-select">
-                                <option value="">Pilih Resto...</option>
-                                @foreach(\App\Models\Resto::all() as $resto)
-                                    <option value="{{ $resto->id }}">{{ $resto->nama_resto }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Link Google Maps</label>
-                            <input type="url" name="gmaps_link" id="gmaps_link" class="form-input" placeholder="https://maps.google.com/..." required>
-                        </div>
+                        <label class="form-label">Nama Resto</label>
+                        <input type="text" name="nama_resto" id="nama_resto" class="form-input" placeholder="Contoh: RM Padang Sederhana" required>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Harga</label>
-                        <input type="text" name="harga" id="harga" class="form-input" placeholder="Contoh: Rp 25.000 / porsi" required>
+                        <label class="form-label">Daerah</label>
+                        <select name="daerah_id" id="daerah_id" class="form-select" required>
+                            <option value="">Pilih Daerah...</option>
+                            @foreach($daerahs as $daerah)
+                                <option value="{{ $daerah->id }}">{{ $daerah->nama_daerah }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
+                    
                     <div class="form-group">
                         <label class="form-label">Alamat Lengkap</label>
                         <textarea name="alamat" id="alamat" class="form-textarea" rows="2" placeholder="Masukkan alamat lengkap lokasi..."></textarea>
@@ -611,25 +568,17 @@
 
                     <div class="form-group">
                         <label class="form-label">Deskripsi Singkat</label>
-                        <textarea name="deskripsi" id="deskripsi" class="form-textarea" rows="3" placeholder="Jelaskan keunikan menu ini..." required></textarea>
+                        <textarea name="deskripsi" id="deskripsi" class="form-textarea" rows="3" placeholder="Deskripsi restoran..."></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Rating (1-5)</label>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <input type="range" name="rating" id="rating" min="1" max="5" value="5" class="form-input" oninput="this.nextElementSibling.innerText = this.value">
-                            <span id="ratingValue" style="font-weight: bold; color: #ff6b35;">5</span> <i class="fas fa-star" style="color: #ff6b35;"></i>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Foto Menu</label>
+                        <label class="form-label">Foto Resto</label>
                         <input type="file" name="gambar" id="gambar" class="form-input" accept="image/*">
-                        <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">Format: JPG, PNG, Max: 2MB. Biarkan kosong jika tidak ingin mengubah gambar (saat edit).</small>
+                        <small style="color: #999; font-size: 12px; margin-top: 5px; display: block;">Format: JPG, PNG, Max: 2MB.</small>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        <i class="fas fa-save"></i> Simpan Menu
+                        <i class="fas fa-save"></i> Simpan Resto
                     </button>
                 </form>
             </div>
@@ -640,63 +589,49 @@
         // Modal functions
         function openModal() {
             // Reset form for "Add" mode
-            document.getElementById('kulinerForm').action = "{{ route('kuliner.store') }}";
+            document.getElementById('restoForm').action = "{{ route('resto.store') }}";
             document.getElementById('methodField').innerHTML = '';
-            document.getElementById('modalTitle').innerText = 'Tambah Menu Baru';
-            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Menu';
-            document.getElementById('nama_kuliner').value = '';
-            document.getElementById('nama_kuliner').value = '';
+            document.getElementById('modalTitle').innerText = 'Tambah Resto Baru';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Resto';
+            document.getElementById('nama_resto').value = '';
             document.getElementById('daerah_id').value = '';
-            document.getElementById('resto_id').value = '';
-            document.getElementById('gmaps_link').value = '';
-            document.getElementById('gmaps_link').value = '';
-            document.getElementById('harga').value = '';
             document.getElementById('alamat').value = '';
             document.getElementById('jam_buka').value = '';
             document.getElementById('jam_tutup').value = '';
             document.getElementById('deskripsi').value = '';
-            document.getElementById('rating').value = 5;
-            document.getElementById('ratingValue').innerText = 5;
-            document.getElementById('gambar').required = true; // Image required for new items
+            document.getElementById('gambar').required = true;
             
-            document.getElementById('kulinerModal').style.display = 'flex';
+            document.getElementById('restoModal').style.display = 'flex';
         }
 
         function closeModal() {
-            document.getElementById('kulinerModal').style.display = 'none';
+            document.getElementById('restoModal').style.display = 'none';
         }
 
-        function editKuliner(data) {
+        function editResto(data) {
             // Populate form for "Edit" mode
-            let updateUrl = "{{ route('kuliner.update', ':id') }}";
+            let updateUrl = "{{ route('resto.update', ':id') }}";
             updateUrl = updateUrl.replace(':id', data.id);
             
-            document.getElementById('kulinerForm').action = updateUrl;
+            document.getElementById('restoForm').action = updateUrl;
             document.getElementById('methodField').innerHTML = '<input type="hidden" name="_method" value="PUT">';
-            document.getElementById('modalTitle').innerText = 'Edit Menu Kuliner';
+            document.getElementById('modalTitle').innerText = 'Edit Resto';
             document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Simpan Perubahan';
             
-            document.getElementById('nama_kuliner').value = data.nama_kuliner;
-            document.getElementById('nama_kuliner').value = data.nama_kuliner;
+            document.getElementById('nama_resto').value = data.nama_resto;
             document.getElementById('daerah_id').value = data.daerah_id;
-            document.getElementById('resto_id').value = data.resto_id || '';
-            document.getElementById('gmaps_link').value = data.gmaps_link;
-            document.getElementById('gmaps_link').value = data.gmaps_link;
-            document.getElementById('harga').value = data.harga;
             document.getElementById('alamat').value = data.alamat;
             document.getElementById('jam_buka').value = data.jam_buka;
             document.getElementById('jam_tutup').value = data.jam_tutup;
             document.getElementById('deskripsi').value = data.deskripsi;
-            document.getElementById('rating').value = data.rating;
-            document.getElementById('ratingValue').innerText = data.rating;
-            document.getElementById('gambar').required = false; // Image not required for update
+            document.getElementById('gambar').required = false;
             
-            document.getElementById('kulinerModal').style.display = 'flex';
+            document.getElementById('restoModal').style.display = 'flex';
         }
 
         // Close when clicking outside
         window.onclick = function(event) {
-            var modal = document.getElementById('kulinerModal');
+            var modal = document.getElementById('restoModal');
             if (event.target == modal) {
                 modal.style.display = 'none';
             }

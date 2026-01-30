@@ -12,15 +12,22 @@ class KulinerController extends Controller
 {
     public function index()
     {
-        $kuliners = Kuliner::with(['daerah'])->get();
+        $kuliners = Kuliner::with(['daerah', 'resto'])->get();
         $daerahs = Daerah::all();
         
         return view('admin', compact('kuliners', 'daerahs'));
     }
 
+    public function publicIndex()
+    {
+        $kuliners = Kuliner::with('daerah')->get();
+        $daerahs = Daerah::all();
+        return view('public_kuliner', compact('kuliners', 'daerahs'));
+    }
+
     public function show($id)
     {
-        $kuliner = Kuliner::with(['daerah', 'ulasan'])->findOrFail($id);
+        $kuliner = Kuliner::with(['daerah', 'ulasan', 'resto'])->findOrFail($id);
         $daerahs = Daerah::all(); // For the navbar dropdown
         return view('detail', compact('kuliner', 'daerahs'));
     }
@@ -38,6 +45,7 @@ class KulinerController extends Controller
             'alamat' => 'nullable|string',
             'jam_buka' => 'nullable|string|max:10',
             'jam_tutup' => 'nullable|string|max:10',
+            'resto_id' => 'nullable|exists:restos,id',
         ]);
 
         $imagePath = null;
@@ -58,6 +66,7 @@ class KulinerController extends Controller
             'rating' => $request->rating,
             'gambar' => $imagePath,
             'gmaps_link' => $request->gmaps_link,
+            'resto_id' => $request->resto_id,
         ]);
 
         return redirect()->route('admin')->with('success', 'Kuliner berhasil ditambahkan!');
@@ -78,6 +87,7 @@ class KulinerController extends Controller
             'alamat' => 'nullable|string',
             'jam_buka' => 'nullable|string|max:10',
             'jam_tutup' => 'nullable|string|max:10',
+            'resto_id' => 'nullable|exists:restos,id',
         ]);
 
         $data = [
@@ -90,6 +100,7 @@ class KulinerController extends Controller
             'alamat' => $request->alamat,
             'jam_buka' => $request->jam_buka,
             'jam_tutup' => $request->jam_tutup,
+            'resto_id' => $request->resto_id,
         ];
 
         if ($request->hasFile('gambar')) {

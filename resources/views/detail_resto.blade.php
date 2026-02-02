@@ -242,7 +242,7 @@
             <!-- Menu Makanan -->
             <div class="menu-section">
                 <div class="section-title">
-                    <i class="fas fa-utensils"></i> Daftar Menu Makanan
+                    <i class="fas fa-utensils"></i> Daftar Makanan Populer
                 </div>
 
                 @if($resto->kuliners->count() > 0)

@@ -523,6 +523,38 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        /* Jelajah Button Style */
+        .btn-jelajah {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 35px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
+            border: none;
+        }
+
+        .btn-jelajah:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-jelajah i {
+            margin-left: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-jelajah:hover i {
+            transform: translateX(8px);
+        }
     </style>
 </head>
 <body>
@@ -645,8 +677,8 @@
 
             @if($kuliners->count() > 3)
             <div style="text-align: center; margin-top: 40px;">
-                <a href="{{ route('public.kuliner') }}" class="btn-jelajah" style="display: inline-flex;">
-                    Lihat Semua Kuliner <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                <a href="{{ route('public.kuliner') }}" class="btn-jelajah">
+                    Lihat Semua Kuliner <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
             @endif
@@ -686,8 +718,8 @@
 
             @if($restos->count() > 3)
              <div style="text-align: center; margin-top: 40px;">
-                <a href="{{ route('public.resto') }}" class="btn-jelajah" style="display: inline-flex;">
-                    Lihat Semua Resto <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                <a href="{{ route('public.resto') }}" class="btn-jelajah">
+                    Lihat Semua Resto <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
             @endif
